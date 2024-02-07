@@ -29,6 +29,9 @@ export default async function SnippetShowPage(props: SnippetShowPageProps) {
       <div className="flex m-4 justify-between items-center">
         <h1 className="text-xl font-bold">{snippet.title}</h1>
         <div className="flex gap-4">
+          <Link href="/" className="p-2 border rounded">
+            Home
+          </Link>
           <Link
             href={`/snippets/${snippet.id}/edit`}
             className="p-2 border rounded"
@@ -45,4 +48,14 @@ export default async function SnippetShowPage(props: SnippetShowPageProps) {
       </pre>
     </div>
   );
+}
+
+export async function generateStaticParams() {
+  const snippets = await db.snippet.findMany();
+
+  return snippets.map((snippet: any) => {
+    return {
+      id: snippet.id.toString(),
+    };
+  });
 }
